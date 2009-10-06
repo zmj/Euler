@@ -1,5 +1,17 @@
 from math import sqrt
 
+def nthLexiPerm(sequence, n):
+	perm = list()
+	seq = list(sequence)
+	seqLength = len(sequence)
+	for i in range(0, seqLength):
+		f = factorial(seqLength-i-1)
+		div = n / f
+		perm.append(str(seq[div]))
+		del seq[div]
+		n -= div*f
+	return ''.join(perm)
+
 def isPandigital(n, *numbers):
 	availableDigits = range(1, n+1)
 	
@@ -28,7 +40,8 @@ def isPalindrome(p):
 			return False
 	return True
 
-def BaseConvert(n, base): #converts from base 10 to string rep of # in specified base
+def BaseConvert(n, base): 
+	'''converts from base 10 to string rep of # in specified base'''
 	numDigits = 0
 	while True:
 		if base**numDigits > n:
@@ -65,6 +78,15 @@ def allFactors(x):
 			if factor != i:
 				factors.append(factor)
 	return factors
+
+def isPrimeSimple(p):
+	if p % 2 == 0:
+		return False
+
+	for i in range(3, int(sqrt(p)), 2):
+		if p % i == 0:
+			return False
+	return True
 
 class PrimeGen:
 	primes = list()
