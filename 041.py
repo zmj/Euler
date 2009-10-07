@@ -6,6 +6,7 @@ import sys
 for numDigits in range(9, 0, -1):
 	sequence = range(1, numDigits+1)
 	sequence.reverse()
+	#should probably write a function to generate all permutations
 	for permutationIndex in range(0, factorial(numDigits)):
 		permutationStr = nthLexiPerm(sequence, permutationIndex)
 		#print str(permutationIndex) + ": "+str(permutationStr)
