@@ -1,4 +1,76 @@
 from math import sqrt
+import sets
+
+class PentagonalNumbers:
+	numbers = set()
+
+	def __init__(self, pentNumbersBelow):
+		n = 1
+		while True:
+			nextPent = (n*(3*n-1))/2
+			if pentNumbersBelow < nextPent:
+				break
+			else:
+				self.numbers.add(nextPent)
+				n += 1
+
+	def isPent(self, n):
+		return n in self.numbers
+
+class TriangleNumbers:
+	numbers = set()
+
+	def __init__(self, triangleNumbersBelow):
+		n = 1
+		while True:
+			nextTri = (n*(n-1))/2
+			if triangleNumbersBelow < nextTri:
+				break
+			else:
+				self.numbers.add(nextTri)
+				n += 1
+
+	def isTri(self, n):
+		return n in self.numbers
+
+class HexagonalNumbers:
+	numbers = set()
+
+	def __init__(self, hexNumbersBelow):
+		n = 1
+		while True:
+			nextHex = n*(2*n - 1)
+			if hexNumbersBelow < nextHex:
+				break
+			else:
+				self.numbers.add(nextHex)
+				n += 1
+
+	def isHex(self, n):
+		return n in self.numbers
+
+def unorderedSequenceEqual(seq1, seq2):
+	return frozenset(seq1) == frozenset(seq2)
+
+def numericPermutations(number, n=0):
+	perms = permutations(str(number), n)
+	permNums = list()
+	for perm in perms:
+		permNums.append( int( ''.join(perm) ) )
+	return permNums
+
+def permutations(sequence, n=0):
+	if len(sequence) == n:
+		return [[]]
+	
+	perms = list()
+	for item in sequence:
+		seqCopy = list(sequence)
+		seqCopy.remove(item)
+		for subPerm in permutations(seqCopy, n):
+			perms.append( [item] + subPerm )
+
+	return perms
 
 def nthLexiPerm(sequence, n):
 	perm = list()
@@ -90,12 +162,14 @@ def isPrimeSimple(p):
 
 class PrimeGen:
 	primes = list()
+	primeHash = set()
 	
 	def __init__(self, primesBelow):
 		self.primes.append(2)
 		for p in range(3, primesBelow, 2):
 			if self.isPrime(p):
 				self.primes.append(p)
+				self.primeHash.add(p)
 	
 	def isPrime(self, p):
 		if p <= 1:
@@ -108,3 +182,20 @@ class PrimeGen:
 			elif p % prime == 0:
 				return False
 		return True
+
+	def isPrimeHash(self, p):
+		return p in self.primeHash
+
+	def distinctPrimeFactors(self, n):
+		return set(self.allPrimeFactors(n))
+
+	def allPrimeFactors(self, n):
+		if n==1:
+			return []
+
+		for prime in self.primes:
+			if prime > n:
+				break
+			if n % prime == 0:
+				return [ prime ] + self.allPrimeFactors(n/prime)
+		
